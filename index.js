@@ -162,8 +162,10 @@ process.once("SIGTERM", () => bot.stop("SIGTERM"));
 const PORT = process.env.PORT || 3000;
 
 initDb()
-  .then(() => {
+  .then(async () => {
     app.listen(PORT, () => console.log("Server started on", PORT));
+    await bot.launch(); // ← ВАЖНО
+    console.log("Bot launched (long polling)");
   })
   .catch((e) => {
     console.error("DB init failed:", e);
